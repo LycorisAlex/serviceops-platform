@@ -1,13 +1,20 @@
-import httpx
 from time import perf_counter
+
+import httpx
+
 
 async def check_service(url):
     async with httpx.AsyncClient() as client:
-        result = {"is_up": False , "status_code": None, "response_time_ms": None, "error": None}
+        result = {
+            "is_up": False,
+            "status_code": None,
+            "response_time_ms": None,
+            "error": None,
+        }
         timeout = httpx.Timeout(5.0)
         start_time = perf_counter()
         try:
-            response = await client.get(url, timeout = timeout)
+            response = await client.get(url, timeout=timeout)
             result["status_code"] = response.status_code
             if 200 <= response.status_code <= 399:
                 result["is_up"] = True
